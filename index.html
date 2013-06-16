@@ -11,24 +11,22 @@
         <meta name="viewport" content="width=device-width">
         <script data-main="js/app" src="components/requirejs/require.js"></script>
 
-<!--         <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
- -->    </head>
+    </head>
     <body>
+<!-- Messaging-->
+<pre>
+  <code id="terminal">
+  </code>
+</pre>
 
-        <pre><code id="terminal">
-Result:
-        </code></pre>
-        <article>
-          <h1>Our Source Images...</h1>
-          <img src="/static/cat1.jpg" alt="" id="one">
-          <img src="/static/cat2.jpg" alt="" id="two">
-        </article>
+<!-- Visual Elements-->
+<video autoplay width="400" height="200"></video>
 
-        <h2>Our Result:</h2>
-        <div id="result"></div>
+<!-- Controls -->
+<button id="start_capture">Start Video</button>
+<button id="render">Create Gif</button>
 
-        <script>
-        </script>
+<h2>Our Result:</h2>
+<div id="result"></div>
     </body>
 </html>
