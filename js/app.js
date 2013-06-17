@@ -63,13 +63,14 @@ requirejs(["gif/gif", "gif/gif.worker", "test/test","components/test_component/b
     quality: 10
   });
 
+  var canvases = [];
+
   // how do we handle the event that there is just one canvas?
   camera_gif.gather_frames = function(){
-    var elements = document.querySelectorAll('canvas');
     var canvas = 0;
-    for (; canvas < elements.length; canvas++){
+    for (; canvas < canvases.length; canvas++){
       // fill with text
-      var gtx= elements[canvas].getContext('2d');
+      var gtx = canvases[canvas].getContext('2d');
       gtx.fillStyle = "#fff";
       gtx.font = "bold 40px Helvetica";
       gtx.textAlign = "center";
@@ -79,7 +80,7 @@ requirejs(["gif/gif", "gif/gif.worker", "test/test","components/test_component/b
       var y = 400;
       gtx.fillText("Gif. Peeps: " + x + " x " + y , x, y);
 
-      camera_gif.addFrame(elements[canvas], {delay : 200});
+      camera_gif.addFrame(canvases[canvas], {delay : 200});
       terminal.innerHTML += '\t Stored added frame to gif.\n';
     }
     console.log(this);
@@ -130,44 +131,15 @@ requirejs(["gif/gif", "gif/gif.worker", "test/test","components/test_component/b
     if (localMediaStream) {
       var snapCanvas = document.createElement('canvas');
       var snapCtx = snapCanvas.getContext('2d');
+      // height is required, otherwise gif.js will not add frame (does it tell us this? no)
       snapCanvas.height = video.videoHeight;
       snapCanvas.width = video.videoWidth;
-      snapCtx.drawImage(video, 0, 0 );
-      document.body.appendChild(snapCanvas);
 
-      terminal.innerHTML += 'Stored canvas snapshot to dom.\n';
+      snapCtx.drawImage(video, 0, 0 );
+      canvases.push(snapCanvas);
+
+      terminal.innerHTML += 'Stored canvas snapshot.\n';
     }
   }
-
-
-
-
-
-
-   /* ==========================================================================
-      Create a Gif
-      ========================================================================== */
-
-   // function createGifs() {
-   //  console.log('createGifs fired!');
-
-    /*  Ways to gather gif:
-     // add a image element
-     // var one = document.getElementById('one');
-     // var two = document.getElementById('two');
-
-     // camera_gif.addFrame(one);
-     // camera_gif.addFrame(two, {delay: 200});
-
-     // or a canvas element
-     // camera_gif.addFrame(canvasElement, {delay: 200});
-
-     // or copy the pixels from a canvas context
-     // camera_gif.addFrame(ctx, {copy: true});
-     */
-
-     // check that gif is generating a new element
-
-     // }
 
 });// requireJs
