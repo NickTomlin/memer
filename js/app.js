@@ -43,7 +43,7 @@ requirejs(["gif/gif", "gif/gif.worker", "test/test","components/test_component/b
    /* Failure  handling T_T
    =================================*/
    var onFailSoHard = function(e) {
-    console.log('Reeeejected!', e);
+    console.log('Error: ', e);
   };
 
 
@@ -68,6 +68,17 @@ requirejs(["gif/gif", "gif/gif.worker", "test/test","components/test_component/b
     var elements = document.querySelectorAll('canvas');
     var canvas = 0;
     for (; canvas < elements.length; canvas++){
+      // fill with text
+      var gtx= elements[canvas].getContext('2d');
+      gtx.fillStyle = "#fff";
+      gtx.font = "bold 40px Helvetica";
+      gtx.textAlign = "center";
+      // gtx.fontBaseline = "bottom";
+
+      var x = 300;
+      var y = 400;
+      gtx.fillText("Gif. Peeps: " + x + " x " + y , x, y);
+
       camera_gif.addFrame(elements[canvas], {delay : 200});
       terminal.innerHTML += '\t Stored added frame to gif.\n';
     }
@@ -124,11 +135,6 @@ requirejs(["gif/gif", "gif/gif.worker", "test/test","components/test_component/b
       snapCtx.drawImage(video, 0, 0 );
       document.body.appendChild(snapCanvas);
 
-      // ctx.drawImage(canvas, 0, 0);
-      // "image/webp" works in Chrome 18. In other browsers, this will fall back to image/png.
-      // ganky.....
-      //var snap = document.createElement('img');
-      //snap.src = video.src;
       terminal.innerHTML += 'Stored canvas snapshot to dom.\n';
     }
   }
