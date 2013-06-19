@@ -1,17 +1,21 @@
 requirejs.config({
-    "baseUrl": "js/lib",
+    // "baseUrl": "js",
     "paths": {
       "components": "/components",
-      "src": "/js/src"
+      "lib": "/js/lib"
     }
 });
 
 // Load the main app module to start the app
-requirejs(["gif/gif",  "gif/gif.worker", "src/terminal","src/memer"], function(gif, gifworker, terminal, memer){
+requirejs(["lib/gif/gif",  "lib/gif/gif.worker", "terminal","memer"], function(gif, gifworker, terminal, memer){
 
   termEle = document.getElementById('terminal');
   var term = new Terminal(termEle);
   term.say('foo');
+
+  memer.sanity();
+  var foo = memer.gif();
+  console.dir(foo);
 
   /**
    * Check to see if UA supports getUserMedia

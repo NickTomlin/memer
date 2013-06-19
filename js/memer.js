@@ -1,3 +1,13 @@
+define(function () {
+
+  var memer = {};
+  memer.frames = [];
+
+  memer.sanity = function() {
+    console.log("hello from memer");
+    console.log(this);
+  };
+
 /**
  * VIDEO
  * Capture user video and output to specified <video> element
@@ -5,7 +15,7 @@
 
  /* Check for UserMedia, error handling, crossBrowser config
 =================================*/
-var getVideo = function(destElem) {
+memer.getVideo = function(destElem) {
   var localMediaStream;
   // cross browser support
   window.URL = window.URL || window.webkitURL;
@@ -25,40 +35,40 @@ var getVideo = function(destElem) {
  */
 
 // require([gif, gif.worker.js])
-var memer = (function(){
-  var camera_gif = new GIF({
-    workers: 2,
-    workerFile: gifworker,
-    quality: 10
-  });
+  memer.gif = function() {
+    return new GIF({
+      workers: 2,
+      quality: 10
+    }).on('finished', memer.gifFinished);
+  };
+
+
   // consider a "broadcast" method (which defaults to returning null?), that can be passed
   // a function()
 
-  // when render event fires (after user has clicked finished)
-  // create a new gif element and set it's src to the blog
-  camera_gif.on('finished', function(blob) {
+  memer.gifFinished = function(blob) {
    var gif_image = document.createElement('img');
    console.log("finished!");
    gif_image.src = window.URL.createObjectURL(blob);
    document.querySelector('#result').appendChild(gif_image);
-  });
+ };
 
-  var frames = [];
+
 
 
   // how do we handle the event that there is just one canvas?
-  var gatherFrames = function(){
+  memer.gatherFrames = function(){
     var canvas = 0;
     for (; canvas < canvases.length; canvas++){
       // fill with text
       canvasText(canvas);
-      camera_gif.addFrame(canvases[canvas], {delay : 200});
+      memer.gif.addFrame(canvases[canvas], {delay : 200});
       term.say('\t Stored added frame to gif.\n');
     }
-    camera_gif.render();
+    memer.gif.render();
   };
 
-  var canvasText = function(canvas, length, height) {
+  memer.canvasText = function(canvas, length, height) {
       var x = length || 300;
       var y = height || 400;
 
@@ -68,9 +78,9 @@ var memer = (function(){
       gtx.textAlign = "center";
       // gtx.fontBaseline = "bottom";
       gtx.fillText("Gif. Peeps: " + x + " x " + y , x, y);
-  }
+  };
 
-  var snapshot = function () {
+  memer.snapshot = function () {
     if (localMediaStream) {
       var snapCanvas = document.createElement('canvas');
       var snapCtx = snapCanvas.getContext('2d');
@@ -85,4 +95,5 @@ var memer = (function(){
     }
   };
 
+  return memer;
 });
