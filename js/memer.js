@@ -1,99 +1,193 @@
 define(function () {
 
-  var memer = {};
-  memer.frames = [];
-
-  memer.sanity = function() {
-    console.log("hello from memer");
-    console.log(this);
-  };
-
-/**
- * VIDEO
- * Capture user video and output to specified <video> element
- */
-
- /* Check for UserMedia, error handling, crossBrowser config
-=================================*/
-memer.getVideo = function(destElem) {
-  var localMediaStream;
-  // cross browser support
-  window.URL = window.URL || window.webkitURL;
-  navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-                            navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-  navigator.getUserMedia({video: true}, function(stream) {
-    destElem.src = window.URL.createObjectURL(stream);
-    localMediaStream = stream;
-  }, onFailSoHard);
-};
+  var Memer = function(contentEle) {
+    var content  = contentEle,
+    log = function(message){ window.console.log(message); },
+    localMediaStream,
+    shutterSpeed = 150, // encapsulate in an options object later
+    videoEle,
+    snapTimer,
+    inputText,
+    buttonCreate,
+    buttonStop,
+    canvases = [],
+    gif;
 
 
-/**
- * MEMER
- * Gathers source canvases,
- */
-
-// require([gif, gif.worker.js])
-  memer.gif = function() {
-    return new GIF({
-      workers: 2,
-      quality: 10
-    }).on('finished', memer.gifFinished);
-  };
-
-
-  // consider a "broadcast" method (which defaults to returning null?), that can be passed
-  // a function()
-
-  memer.gifFinished = function(blob) {
-   var gif_image = document.createElement('img');
-   console.log("finished!");
-   gif_image.src = window.URL.createObjectURL(blob);
-   document.querySelector('#result').appendChild(gif_image);
- };
+    if (hasGetUserMedia()) {
+      init();
+    } else {
+      noSupport();
+      return;
+    }
 
 
 
+  function  init (){
+    videoEle = getVideo();
+    content.appendChild(videoEle);
 
-  // how do we handle the event that there is just one canvas?
-  memer.gatherFrames = function(){
+    // cross browser support
+    window.URL = window.URL || window.webkitURL; navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    navigator.getUserMedia({video: true}, function(stream) {
+      videoEle.src = window.URL.createObjectURL(stream);
+      videoEle.localMediaStream = stream;
+      log("Begin Video Capture");
+      attachControls(); // keep things rolling
+    }, function(e){ console.log(e); return; }); // bug out
+  }
+
+  function attachControls () {
+      // start
+      buttonStart = document.createElement('button');
+      buttonStart.addEventListener('click', captureVideo); // render gif
+      buttonStart.innerHTML = "Start video";
+      content.appendChild(buttonStart);
+
+      // stop
+      buttonStop = document.createElement('button');
+      buttonStop.innerHTML = "Stop Capture";
+      buttonStop.disabled = true;
+      buttonStop.addEventListener('click', stopCapture);
+      content.appendChild(buttonStop);
+
+      // text
+      inputText = document.createElement('input');
+      inputText.value = "Gif. Baby...";
+      inputText.width = 80;
+      inputText.height = 24;
+      content.appendChild(inputText);
+  }
+
+  function stopCapture () {
+
+    console.log('STOPPING');
+
+    if(snapTimer) {
+      clearInterval(snapTimer);
+    }
+      buttonStop.disabled = true;
+      gatherFrames();
+  }
+
+  function gifFinished (blob) {
+     var gif_image = document.createElement('img');
+     gif_image.src = window.URL.createObjectURL(blob);
+     content.appendChild(gif_image);
+     gif = null; // attempt to offer gif up for garbage collection
+
+     console.log(gif);
+     buttonStart.disabled = false;
+  }
+
+  function captureVideo () {
+    canvases = [];
+    start = Date.now();
+
+    this.disabled = true; // refers to evented element (a button, in this case). This could get sticky...
+    buttonStop.disabled = false;
+
+    snapTimer = setInterval(function(){
+      now = Date.now();
+      if (now  - start >= 4000 ){
+        stopCapture();
+      }
+      snapshot(videoEle);
+    }, shutterSpeed);
+  }
+
+ function gatherFrames () {
+    gif = new GIF({
+      workers: 3,
+      quality: 7
+    }).on('finished', gifFinished);
+
     var canvas = 0;
     for (; canvas < canvases.length; canvas++){
       // fill with text
-      canvasText(canvas);
-      memer.gif.addFrame(canvases[canvas], {delay : 200});
-      term.say('\t Stored added frame to gif.\n');
+      textToCanvas(canvases[canvas], inputText.value);
+      gif.addFrame(canvases[canvas], {delay : 100});
+      log('\t Stored added frame to gif.\n'); // @fix
     }
-    memer.gif.render();
-  };
-
-  memer.canvasText = function(canvas, length, height) {
-      var x = length || 300;
-      var y = height || 400;
-
-      var gtx = canvas.getContext('2d');
-      gtx.fillStyle = "#fff";
-      gtx.font = "bold 40px Helvetica";
-      gtx.textAlign = "center";
-      // gtx.fontBaseline = "bottom";
-      gtx.fillText("Gif. Peeps: " + x + " x " + y , x, y);
-  };
-
-  memer.snapshot = function () {
-    if (localMediaStream) {
+    gif.render(); // @fix
+  }
+  /**
+   * take a "snapshot" of an image or video and store
+   * it to a canvas
+   * @param  {img/video element}
+   * @return {canvas element}
+   */
+  function snapshot (src) {
       var snapCanvas = document.createElement('canvas');
       var snapCtx = snapCanvas.getContext('2d');
       // height is required, otherwise gif.js will not add frame (does it tell us this? no)
-      snapCanvas.height = video.videoHeight;
-      snapCanvas.width = video.videoWidth;
+      snapCanvas.height = 280;
+      snapCanvas.width = 280;
 
-      snapCtx.drawImage(video, 0, 0 );
+      snapCtx.drawImage(videoEle, 0, 0, snapCanvas.height, snapCanvas.width);
+      console.log("snap!");
+
       canvases.push(snapCanvas);
+  }
 
-      term.say('Stored canvas snapshot.\n');
-    }
-  };
 
-  return memer;
-});
+/**
+ * VIDEO
+ * Capture user video and output to specified <video> contentEle
+ */
+  function getVideo () {
+
+
+    var videoEle = document.createElement('video');
+    /*
+      Only chrome supports video constraints at the moment. So setting these do not matter
+     */
+    // videoEle.width = 640;
+    // videoEle.height = 480;
+    videoEle.autoplay = "true";
+
+    return videoEle;
+  }
+
+
+
+
+  /**
+  * Write text on to canvas.
+  */
+   function textToCanvas (canvas, message, length, height) {
+      var x = canvas.width / 2;
+      var y = canvas.height - (canvas.height / 6);
+      var text = message || "Gif. Peeps: ";
+
+      var gtx = canvas.getContext('2d');
+
+      gtx.fillStyle = "#fff";
+      gtx.font = "bold 22px Helvetica";
+      gtx.textAlign = "center";
+      // gtx.fontBaseline = "bottom";
+
+      gtx.fillText(text, x, y);
+  }
+
+  /**
+   * Check to see if UA supports getUserMedia
+   * @return {Boolean} [description]
+   */
+  function hasGetUserMedia() {
+    // Note: Opera is unprefixed.
+    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+              navigator.mozGetUserMedia || navigator.msGetUserMedia);
+  }
+
+  function noSupport() {
+    var warnEle = document.createElement('div');
+    warnEle.className +=" warn no-support";
+    warnEle.innerHTML = "Sorry, your browser does not support <a href=\"http://dev.w3.org/2011/webrtc/editor/getusermedia.html\">getUserMedia</a> \n please use the latest edition of Google Chrome or Firefox";
+    content.appendChild(warnEle);
+  }
+
+}; // memer
+  return Memer;
+}); // define closure
