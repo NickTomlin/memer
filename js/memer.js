@@ -1,17 +1,18 @@
 define(function () {
-
-  var Memer = function(contentEle) {
+var Memer = function(contentEle) {
+    // base variables
     var content  = contentEle,
-    log = function(message){ window.console.log(message); },
     localMediaStream,
     shutterSpeed = 150, // encapsulate in an options object later
-    videoEle,
+    videoEle, // we could eventually have this be a callback that receives a video element, or the internal getVideo function
     snapTimer,
     inputText,
     buttonCreate,
     buttonStop,
     canvases = [],
-    gif;
+    gif,
+    // functions
+    log = function(message){ window.console.log(message); };
 
 
     if (hasGetUserMedia()) {
@@ -22,8 +23,7 @@ define(function () {
     }
 
 
-
-  function  init (){
+  function init () {
     videoEle = getVideo();
     content.appendChild(videoEle);
 
@@ -37,6 +37,7 @@ define(function () {
       attachControls(); // keep things rolling
     }, function(e){ console.log(e); return; }); // bug out
   }
+
 
   function attachControls () {
       // start
@@ -60,16 +61,18 @@ define(function () {
       content.appendChild(inputText);
   }
 
-  function stopCapture () {
 
+  function stopCapture () {
     console.log('STOPPING');
 
     if(snapTimer) {
       clearInterval(snapTimer);
     }
-      buttonStop.disabled = true;
-      gatherFrames();
+
+    buttonStop.disabled = true;
+    gatherFrames();
   }
+
 
   function gifFinished (blob) {
      var gif_image = document.createElement('img');
@@ -80,6 +83,7 @@ define(function () {
      console.log(gif);
      buttonStart.disabled = false;
   }
+
 
   function captureVideo () {
     canvases = [];
@@ -97,6 +101,7 @@ define(function () {
     }, shutterSpeed);
   }
 
+
  function gatherFrames () {
     gif = new GIF({
       workers: 3,
@@ -112,6 +117,8 @@ define(function () {
     }
     gif.render(); // @fix
   }
+
+
   /**
    * take a "snapshot" of an image or video and store
    * it to a canvas
@@ -137,8 +144,6 @@ define(function () {
  * Capture user video and output to specified <video> contentEle
  */
   function getVideo () {
-
-
     var videoEle = document.createElement('video');
     /*
       Only chrome supports video constraints at the moment. So setting these do not matter
@@ -149,8 +154,6 @@ define(function () {
 
     return videoEle;
   }
-
-
 
 
   /**
@@ -171,6 +174,7 @@ define(function () {
       gtx.fillText(text, x, y);
   }
 
+
   /**
    * Check to see if UA supports getUserMedia
    * @return {Boolean} [description]
@@ -181,13 +185,14 @@ define(function () {
               navigator.mozGetUserMedia || navigator.msGetUserMedia);
   }
 
+
   function noSupport() {
     var warnEle = document.createElement('div');
     warnEle.className +=" warn no-support";
-    warnEle.innerHTML = "Sorry, your browser does not support <a href=\"http://dev.w3.org/2011/webrtc/editor/getusermedia.html\">getUserMedia</a> \n please use the latest edition of Google Chrome or Firefox";
+    warnEle.innerHTML = 'Sorry, your browser does not support <a target="_blank" href="http://dev.w3.org/2011/webrtc/editor/getusermedia.html">getUserMedia</a> \n please use the latest edition of Google Chrome or Firefox';
     content.appendChild(warnEle);
   }
 
 }; // memer
-  return Memer;
+return Memer;
 }); // define closure
