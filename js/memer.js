@@ -1,6 +1,5 @@
 define(function () {
 var Memer = function(contentEle) {
-    // base variables
     var content  = contentEle,
     localMediaStream,
     shutterSpeed = 150, // encapsulate in an options object later
@@ -42,13 +41,15 @@ var Memer = function(contentEle) {
   function attachControls () {
       // start
       buttonStart = document.createElement('button');
-      buttonStart.addEventListener('click', captureVideo); // render gif
       buttonStart.innerHTML = "Start video";
+      buttonStart.id = "start";
+      buttonStart.addEventListener('click', captureVideo); // render gif
       content.appendChild(buttonStart);
 
       // stop
       buttonStop = document.createElement('button');
       buttonStop.innerHTML = "Stop Capture";
+      buttonStop.id = "stop";
       buttonStop.disabled = true;
       buttonStop.addEventListener('click', stopCapture);
       content.appendChild(buttonStop);
