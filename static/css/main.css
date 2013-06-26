@@ -1,0 +1,9 @@
+@import "normalize.css";
+body{font-family:monospace}
+.content{background:#ececec;background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #ececec)) fixed;background:-webkit-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-moz-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-o-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-ms-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:linear-gradient(top, #fff 0%, #ececec 100%) fixed;width:50em;overflow:auto;margin:0 auto;padding:1em;}
+.content button{display:inline-block;border:none;padding:.5em .7em;-webkit-border-radius:5px;border-radius:5px}
+.controls{margin:0 auto;text-align:left}
+#start{border:none;display:inline-block;background:#69c73b}
+#stop{background:#ff4040}
+.result{float:right;width:20%;}
+.result img{max-width:100%}

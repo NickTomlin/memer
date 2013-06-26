@@ -1,0 +1,41 @@
+@import "normalize.css"
+@import 'nib'
+
+$red = #ff4040
+$blue = #418eeb
+$green = #69c73b
+
+body
+  font-family monospace
+
+.content
+  background: #ececec;
+  background linear-gradient(top, #fff, #ececec) fixed
+  width: 50em
+  overflow:auto
+  margin: 0 auto
+  padding:1em;
+  button
+    display: inline-block
+    border: none
+    padding:.5em .7em
+    border-radius:5px
+
+
+.controls
+  margin 0 auto
+  text-align left
+
+#start
+  border: none
+  display: inline-block
+  background: $green
+
+#stop
+  background $red
+
+.result
+  float right
+  width 20%
+  img
+    max-width 100%
