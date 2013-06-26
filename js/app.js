@@ -7,10 +7,7 @@ requirejs.config({
 });
 
 // Load the main app module to start the app
-requirejs(["lib/gif/gif",  "lib/gif/gif.worker", "terminal","memer"], function(gif, gifworker, terminal, memer){
-  // removed terminal, because JS is confusing T_T
-
+requirejs(["lib/gif/gif", "terminal","memer"], function(gif, terminal, memer){
   contentEle = document.getElementById('content');
   memer(contentEle);
-
 });// requireJs
