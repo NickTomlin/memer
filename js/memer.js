@@ -1,7 +1,7 @@
-define(function () {
-var Memer = function(contentEle) {
-    // base variables
-    var content  = contentEle,
+define(
+  Memer = function() {
+    var
+    content,
     localMediaStream,
     shutterSpeed = 150, // encapsulate in an options object later
     videoEle, // we could eventually have this be a callback that receives a video element, or the internal getVideo function
@@ -10,23 +10,37 @@ var Memer = function(contentEle) {
     buttonCreate,
     buttonStop,
     canvases = [],
-    gif,
     // functions
-    log = function(message){ window.console.log(message); };
+    log = function(message){ window.console.log(message); }
+    ;
 
 
-    if (hasGetUserMedia()) {
-      init();
-    } else {
-      noSupport();
-      return;
-    }
+  /* ==========================================================================
+     Public Functions
+     ========================================================================== */
+  /**
+   * Check to see if UA supports getUserMedia
+   * @return {Boolean}
+   */
+  function hasGetUserMedia() {
+    // Note: Opera is unprefixed.
+    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+              navigator.mozGetUserMedia || navigator.msGetUserMedia);
+  }
 
-
-  function init () {
+  function init (contentEle) {
+    content = contentEle;
+    attachControls();
     videoEle = getVideo();
+    startUserMedia();
     content.appendChild(videoEle);
+  }
 
+
+  /* ==========================================================================
+     Private Functions
+     ========================================================================== */
+  function startUserMedia () {
     // cross browser support
     window.URL = window.URL || window.webkitURL; navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
@@ -63,8 +77,6 @@ var Memer = function(contentEle) {
 
 
   function stopCapture () {
-    console.log('STOPPING');
-
     if(snapTimer) {
       clearInterval(snapTimer);
     }
@@ -175,15 +187,6 @@ var Memer = function(contentEle) {
   }
 
 
-  /**
-   * Check to see if UA supports getUserMedia
-   * @return {Boolean} [description]
-   */
-  function hasGetUserMedia() {
-    // Note: Opera is unprefixed.
-    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-              navigator.mozGetUserMedia || navigator.msGetUserMedia);
-  }
 
 
   function noSupport() {
@@ -193,6 +196,11 @@ var Memer = function(contentEle) {
     content.appendChild(warnEle);
   }
 
-}; // memer
-return Memer;
+  /* ==========================================================================
+     Expose public functions
+     ========================================================================== */
+  return {
+    init : init,
+    hasGetUserMedia: hasGetUserMedia
+  };
 }); // define closure
