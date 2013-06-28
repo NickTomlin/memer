@@ -30,10 +30,10 @@ define(
 
   function init (contentEle) {
     content = contentEle;
-    attachControls();
     videoEle = getVideo();
     startUserMedia();
     content.appendChild(videoEle);
+    attachControls();
   }
 
 
@@ -48,7 +48,6 @@ define(
       videoEle.src = window.URL.createObjectURL(stream);
       videoEle.localMediaStream = stream;
       log("Begin Video Capture");
-      attachControls(); // keep things rolling
     }, function(e){ console.log(e); return; }); // bug out
   }
 
@@ -57,12 +56,14 @@ define(
       // start
       buttonStart = document.createElement('button');
       buttonStart.addEventListener('click', captureVideo); // render gif
+      buttonStart.classList.add('affirmative');
       buttonStart.innerHTML = "Start video";
       content.appendChild(buttonStart);
 
       // stop
       buttonStop = document.createElement('button');
       buttonStop.innerHTML = "Stop Capture";
+      buttonStop.classList.add('negatory');
       buttonStop.disabled = true;
       buttonStop.addEventListener('click', stopCapture);
       content.appendChild(buttonStop);

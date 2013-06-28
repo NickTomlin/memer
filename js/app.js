@@ -11,8 +11,12 @@ requirejs(["lib/gif/gif",  "lib/gif/gif.worker", "terminal","memer"], function(g
   contentEle = document.getElementById('content');
 
   if (memer.hasGetUserMedia()) {
+    var yayText = document.querySelector('.yay');
+    yayText.classList.remove('is-hidden');
+    yayText.classList.add('is-visible'); // this is why you use libraries :\
+
     var buttonStart = document.getElementById('start');
-    buttonStart.addEventListner('click', function(){
+    buttonStart.addEventListener('click', function(){
       memer.init(contentEle);
     });
   } else {
