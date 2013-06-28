@@ -1,41 +1,88 @@
-@import "normalize.css"
-@import 'nib'
+@import "normalize"
+@import "nib"
 
 $red = #ff4040
-$blue = #418eeb
+$blue = darken(#418eeb,5%)
 $green = #69c73b
+$gray = #ececec
+
+hover(prop, timing)
+  transition prop timing ease-in-out
+  &:hover
+    background darken(@background, 15%)
 
 body
   font-family monospace
-
-.content
-  background: #ececec;
+  line-height 1.5
+  background #ececec
   background linear-gradient(top, #fff, #ececec) fixed
-  width: 50em
+  margin 0 auto 0 auto
+  max-width 60em
   overflow:auto
-  margin: 0 auto
   padding:1em;
+
+  input, button
+    font-size 1.5em
+    padding .6em .8em
+    display inline-block
+    margin: 0 .75em 1.5em auto
+
   button
-    display: inline-block
-    border: none
-    padding:.5em .7em
-    border-radius:5px
+    color #fff
+    box-shadow none
+    // text-shadow 1px 1px 1px darken(#fff,2%)
+    -webkit-backface-visibility hidden
+    border none
+    border-radius 5px
+    cursor pointer
 
+  input
+    outline none
+    border: 2px solid #111
+    transition border .1s ease-in-out
+    // hover(border, .2s)
+    &:focus
+      outline none
+      border none
+      // -moz-outline-style none
+      border: 2px solid rgba($blue,0.6)
 
-.controls
-  margin 0 auto
-  text-align left
+#content
+
+  video
+    background linear-gradient(left, #111, #333)
+    border-radius 2px
+    margin 0 0 1.5em 0
+
+#result
+  background rgba($gray, 0.8)
+  height 10em
+  width 300px
+  overflow-x hidden
+  overflow-y scroll
+  float right
+  img
+    max-width 100%
+
+// .controls
 
 #start
-  border: none
   display: inline-block
   background: $green
+  hover(background, .2s)
 
 #stop
   background $red
+  hover(background, .2s)
 
-.result
-  float right
-  width 20%
-  img
-    max-width 100%
+
+.is-hidden
+  visibility hidden
+  height 0
+  opacity 0
+  transition opacity .2s ease-in-out
+
+.is-visible
+  visibility visible
+  height auto
+  opacity 1

@@ -1,17 +1,16 @@
 /**
  * TERMINAL
  * Communicate with user through HTML element
- * @param {DOM node}
+ * @param {DOM node} return
  */
-var terminal = (function(elem){
-  var target = elem;
+function Terminal(element) {
+  this.target = element;
 
-  return {
-    say: function(message){
-      target.innerHTML += message + '\n';
-    },
-    clear: function(){
-      target.innerHTML = "";
-    }
+  this.say = function(message){
+   this.target.innerHTML +=  message + "\n";
   };
-});
+
+  this.clear = function() {
+    this.target.innerHTML = "";
+  };
+}

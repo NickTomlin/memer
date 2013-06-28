@@ -36,11 +36,11 @@ input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit
 button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
 textarea{overflow:auto;vertical-align:top;}
 table{border-collapse:collapse;border-spacing:0}
-body{font-family:monospace;line-height:1.5;background:#ececec;background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #ececec)) fixed;background:-webkit-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-moz-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-o-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-ms-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:linear-gradient(top, #fff 0%, #ececec 100%) fixed;margin:0 auto 0 auto;max-width:60em;overflow:auto;padding:1em;}
-body input,body button{font-size:1.5em;padding:.6em .8em;display:inline-block;margin:0 .75em 1.5em auto}
-body button{color:#fff;-webkit-box-shadow:none;box-shadow:none;-webkit-backface-visibility:hidden;border:none;-webkit-border-radius:5px;border-radius:5px;cursor:pointer}
-body input{outline:none;border:2px solid #111;-webkit-transition:border .1s ease-in-out;-moz-transition:border .1s ease-in-out;-o-transition:border .1s ease-in-out;-ms-transition:border .1s ease-in-out;transition:border .1s ease-in-out;}
-body input:focus{outline:none;border:none;border:2px solid rgba(51,134,234,0.6)}
+body{font-family:monospace;line-height:1.5;background:#ececec;background:-webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #ececec)) fixed;background:-webkit-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-moz-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-o-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:-ms-linear-gradient(top, #fff 0%, #ececec 100%) fixed;background:linear-gradient(top, #fff 0%, #ececec 100%) fixed;margin:0 auto 0 auto;max-width:60em;overflow:auto;padding:1em}
+#content input,#content button{font-size:1.5em;padding:.6em .8em;display:inline-block;margin:0 .75em 1.5em auto}
+#content button{color:#fff;-webkit-box-shadow:none;box-shadow:none;-webkit-backface-visibility:hidden;border:none;-webkit-border-radius:5px;border-radius:5px;cursor:pointer}
+#content input{outline:none;border:2px solid #111;-webkit-transition:border .1s ease-in-out;-moz-transition:border .1s ease-in-out;-o-transition:border .1s ease-in-out;-ms-transition:border .1s ease-in-out;transition:border .1s ease-in-out;}
+#content input:focus{outline:none;border:none;border:2px solid rgba(51,134,234,0.6)}
 #content video{background:-webkit-gradient(linear, left top, right top, color-stop(0, #111), color-stop(1, #333));background:-webkit-linear-gradient(left, #111 0%, #333 100%);background:-moz-linear-gradient(left, #111 0%, #333 100%);background:-o-linear-gradient(left, #111 0%, #333 100%);background:-ms-linear-gradient(left, #111 0%, #333 100%);background:linear-gradient(left, #111 0%, #333 100%);-webkit-border-radius:2px;border-radius:2px;margin:0 0 1.5em 0}
 #result{background:rgba(236,236,236,0.8);height:10em;width:300px;overflow-x:hidden;overflow-y:scroll;float:right;}
 #result img{max-width:100%}
@@ -48,5 +48,3 @@ body input:focus{outline:none;border:none;border:2px solid rgba(51,134,234,0.6)}
 #start:hover{background:#59ab31}
 #stop{background:#ff4040;-webkit-transition:background .2s ease-in-out .2s ease-in-out .2s ease-in-out .2s ease-in-out;-moz-transition:background .2s ease-in-out .2s ease-in-out .2s ease-in-out .2s ease-in-out;-o-transition:background .2s ease-in-out .2s ease-in-out .2s ease-in-out .2s ease-in-out;-ms-transition:background .2s ease-in-out .2s ease-in-out .2s ease-in-out .2s ease-in-out;transition:background .2s ease-in-out .2s ease-in-out .2s ease-in-out .2s ease-in-out .2s ease-in-out;}
 #stop:hover{background:#ff1010}
-.is-hidden{visibility:hidden;height:0;opacity:0;filter:alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";-webkit-transition:opacity .2s ease-in-out;-moz-transition:opacity .2s ease-in-out;-o-transition:opacity .2s ease-in-out;-ms-transition:opacity .2s ease-in-out;transition:opacity .2s ease-in-out}
-.is-visible{visibility:visible;height:auto;opacity:1;-ms-filter:none;filter:none}
