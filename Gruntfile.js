@@ -3,15 +3,6 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'js/lib/columns.js',
-        dest: 'js/lib/columns.min.js'
-      }
-    },
     stylus: {
       compile: {
         options: {
@@ -24,11 +15,6 @@ module.exports = function(grunt) {
     },
     connect: {
       server: {
-        options: {
-          port: 3020
-        }
-      },
-      preview: {
         options: {
           port: 3020
         }
@@ -53,12 +39,11 @@ module.exports = function(grunt) {
   });
 
   // contrib
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-contrib-connect');
 
   // default
-  grunt.registerTask('default', ['connect:preview','watch']);
+  grunt.registerTask('default', ['stylus:compile','connect','watch']);
 
 };
