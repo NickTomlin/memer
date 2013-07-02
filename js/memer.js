@@ -94,13 +94,6 @@ define(
       buttonStop.disabled = true;
       buttonStop.addEventListener('click', stopCapture);
       content.appendChild(buttonStop);
-
-      // text
-      inputText = document.createElement('input');
-      inputText.value = "Gif. Baby...";
-      inputText.width = 80;
-      inputText.height = 24;
-      content.appendChild(inputText);
   }
 
 
@@ -217,15 +210,6 @@ define(
       gtx.fillText(text, x, y);
   }
 
-
-
-
-  function noSupport() {
-    var warnEle = document.createElement('div');
-    warnEle.className +=" warn no-support";
-    warnEle.innerHTML = 'Sorry, your browser does not support <a target="_blank" href="http://dev.w3.org/2011/webrtc/editor/getusermedia.html">getUserMedia</a> \n please use the latest edition of Google Chrome or Firefox';
-    content.appendChild(warnEle);
-  }
 
   /* ==========================================================================
      Expose public functions
