@@ -53,7 +53,38 @@ define(
   }
 
 
+  /* ==========================================================================
+     Private Functions
+     ========================================================================== */
+
   function attachControls () {
+
+      // text
+      inputText = document.createElement('input');
+      inputText.setAttribute('type','text');
+      inputText.value = "Gif. Baby...";
+      inputText.width = 80;
+      inputText.height = 24;
+      content.appendChild(inputText);
+
+      // timing
+      inputDuration = document.createElement('input');
+      inputDuration.id = "duration";
+
+
+      inputDuration.setAttribute('type', 'range'); // this will have no effect in browsers that do not support the given type
+      inputDuration.setAttribute('placeholder', 'Length of gif (1-10)');
+      if (inputDuration.type !== "text") {
+        inputDuration.classList.add('input-range');
+        inputDuration.setAttribute('min', 1);
+        inputDuration.setAttribute('max', 10);
+        inputDuration.setAttribute('step', 1);
+      } else {
+        inputDuration.value = "4";
+        inputDuration.style.width = "16px";
+      }
+      content.appendChild(inputDuration);
+
       // start
       buttonStart = document.createElement('button');
       buttonStart.addEventListener('click', captureVideo); // render gif
@@ -101,14 +132,17 @@ define(
 
   function captureVideo () {
     canvases = [];
-    start = Date.now();
+    var start = Date.now();
+
+    var duration = inputDuration.value && inputDuration.value >= 1 && inputDuration.value <= 10 ? inputDuration.value * 1000 : 4000;
+    console.log(duration);
 
     this.disabled = true; // refers to evented element (a button, in this case). This could get sticky...
     buttonStop.disabled = false;
 
     snapTimer = setInterval(function(){
       now = Date.now();
-      if (now  - start >= 4000 ){
+      if (now  - start >= duration){
         stopCapture();
       }
       snapshot(videoEle);
