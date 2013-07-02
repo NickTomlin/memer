@@ -32,22 +32,16 @@ define(
   function init (contentEle) {
     content = contentEle;
     videoEle = getVideo();
-    startUserMedia();
-    content.appendChild(videoEle);
-    attachControls();
-  }
 
-
-  /* ==========================================================================
-     Private Functions
-     ========================================================================== */
-  function startUserMedia () {
     // cross browser support
     window.URL = window.URL || window.webkitURL; navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
     navigator.getUserMedia({video: true}, function(stream) {
       videoEle.src = window.URL.createObjectURL(stream);
       videoEle.localMediaStream = stream;
+      content.appendChild(videoEle);
+
+      attachControls();
       log("Begin Video Capture");
     }, function(e){ console.log(e); return; }); // bug out
   }
