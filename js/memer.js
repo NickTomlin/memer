@@ -1,16 +1,22 @@
 define(
-  Memer = function() {
+  ['gif','lodash'],
+  Memer = function(gif, _) {
+
     var
+    // containers
     content,
+    buttonContainer,
+    // video
     localMediaStream,
     shutterSpeed = 150, // encapsulate in an options object later
     videoEle, // we could eventually have this be a callback that receives a video element, or the internal getVideo function
     snapTimer,
+    canvases = [],
+    // controls
     inputText,
     buttonCreate,
     buttonStop,
-    canvases = [],
-    // functions
+    // future options
     log = function(message){ window.console.log(message); }
     ;
 
@@ -31,49 +37,73 @@ define(
   function init (contentEle) {
     content = contentEle;
     videoEle = getVideo();
-    startUserMedia();
-    content.appendChild(videoEle);
-    attachControls();
-  }
 
-
-  /* ==========================================================================
-     Private Functions
-     ========================================================================== */
-  function startUserMedia () {
     // cross browser support
     window.URL = window.URL || window.webkitURL; navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
     navigator.getUserMedia({video: true}, function(stream) {
       videoEle.src = window.URL.createObjectURL(stream);
       videoEle.localMediaStream = stream;
+      content.appendChild(videoEle);
+
+      attachControls();
       log("Begin Video Capture");
     }, function(e){ console.log(e); return; }); // bug out
   }
 
 
+  /* ==========================================================================
+     Private Functions
+     ========================================================================== */
+
   function attachControls () {
-      // start
-      buttonStart = document.createElement('button');
-      buttonStart.addEventListener('click', captureVideo); // render gif
-      buttonStart.classList.add('affirmative');
-      buttonStart.innerHTML = "Start video";
-      content.appendChild(buttonStart);
+    // text
+    inputText = document.createElement('input');
+    inputText.setAttribute('type','text');
+    inputText.value = "Gif. Baby...";
+    inputText.width = 80;
+    inputText.height = 24;
+    content.appendChild(inputText);
 
-      // stop
-      buttonStop = document.createElement('button');
-      buttonStop.innerHTML = "Stop Capture";
-      buttonStop.classList.add('negatory');
-      buttonStop.disabled = true;
-      buttonStop.addEventListener('click', stopCapture);
-      content.appendChild(buttonStop);
+    // timing
+    inputDuration = document.createElement('input');
+    inputDuration.id = "duration";
 
-      // text
-      inputText = document.createElement('input');
-      inputText.value = "Gif. Baby...";
-      inputText.width = 80;
-      inputText.height = 24;
-      content.appendChild(inputText);
+    inputDuration.setAttribute('type', 'range'); // this will have no effect in browsers that do not support the given type
+    inputDuration.setAttribute('placeholder', 'Length of gif (1-10)');
+    if (inputDuration.type !== "text") {
+      inputDuration.classList.add('input-range');
+      inputDuration.setAttribute('min', 1);
+      inputDuration.setAttribute('max', 10);
+      inputDuration.setAttribute('step', 1);
+    } else {
+      inputDuration.value = "4";
+      inputDuration.style.width = "16px";
+    }
+    content.appendChild(inputDuration);
+
+
+    // button container
+    buttonContainer = document.createElement('article');
+    buttonContainer.classList.add('controls');
+
+    // start
+    buttonStart = document.createElement('button');
+    buttonStart.addEventListener('click', captureVideo); // render gif
+    buttonStart.classList.add('affirmative');
+    buttonStart.innerHTML = "Start video";
+    buttonContainer.appendChild(buttonStart);
+
+    // stop
+    buttonStop = document.createElement('button');
+    buttonStop.innerHTML = "Stop Capture";
+    buttonStop.classList.add('negatory');
+    buttonStop.disabled = true;
+    buttonStop.addEventListener('click', stopCapture);
+    buttonContainer.appendChild(buttonStop);
+
+    content.appendChild(buttonContainer);
+
   }
 
 
@@ -100,14 +130,17 @@ define(
 
   function captureVideo () {
     canvases = [];
-    start = Date.now();
+    var start = Date.now();
+
+    var duration = inputDuration.value && inputDuration.value >= 1 && inputDuration.value <= 10 ? inputDuration.value * 1000 : 4000;
+    console.log(duration);
 
     this.disabled = true; // refers to evented element (a button, in this case). This could get sticky...
     buttonStop.disabled = false;
 
     snapTimer = setInterval(function(){
       now = Date.now();
-      if (now  - start >= 4000 ){
+      if (now  - start >= duration){
         stopCapture();
       }
       snapshot(videoEle);
@@ -187,15 +220,6 @@ define(
       gtx.fillText(text, x, y);
   }
 
-
-
-
-  function noSupport() {
-    var warnEle = document.createElement('div');
-    warnEle.className +=" warn no-support";
-    warnEle.innerHTML = 'Sorry, your browser does not support <a target="_blank" href="http://dev.w3.org/2011/webrtc/editor/getusermedia.html">getUserMedia</a> \n please use the latest edition of Google Chrome or Firefox';
-    content.appendChild(warnEle);
-  }
 
   /* ==========================================================================
      Expose public functions
