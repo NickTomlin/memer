@@ -3,16 +3,20 @@ define(
   Memer = function(gif, _) {
 
     var
+    // containers
     content,
+    buttonContainer,
+    // video
     localMediaStream,
     shutterSpeed = 150, // encapsulate in an options object later
     videoEle, // we could eventually have this be a callback that receives a video element, or the internal getVideo function
     snapTimer,
+    canvases = [],
+    // controls
     inputText,
     buttonCreate,
     buttonStop,
-    canvases = [],
-    // functions
+    // future options
     log = function(message){ window.console.log(message); }
     ;
 
