@@ -53,47 +53,53 @@ define(
      ========================================================================== */
 
   function attachControls () {
+    // text
+    inputText = document.createElement('input');
+    inputText.setAttribute('type','text');
+    inputText.value = "Gif. Baby...";
+    inputText.width = 80;
+    inputText.height = 24;
+    content.appendChild(inputText);
 
-      // text
-      inputText = document.createElement('input');
-      inputText.setAttribute('type','text');
-      inputText.value = "Gif. Baby...";
-      inputText.width = 80;
-      inputText.height = 24;
-      content.appendChild(inputText);
+    // timing
+    inputDuration = document.createElement('input');
+    inputDuration.id = "duration";
 
-      // timing
-      inputDuration = document.createElement('input');
-      inputDuration.id = "duration";
+    inputDuration.setAttribute('type', 'range'); // this will have no effect in browsers that do not support the given type
+    inputDuration.setAttribute('placeholder', 'Length of gif (1-10)');
+    if (inputDuration.type !== "text") {
+      inputDuration.classList.add('input-range');
+      inputDuration.setAttribute('min', 1);
+      inputDuration.setAttribute('max', 10);
+      inputDuration.setAttribute('step', 1);
+    } else {
+      inputDuration.value = "4";
+      inputDuration.style.width = "16px";
+    }
+    content.appendChild(inputDuration);
 
 
-      inputDuration.setAttribute('type', 'range'); // this will have no effect in browsers that do not support the given type
-      inputDuration.setAttribute('placeholder', 'Length of gif (1-10)');
-      if (inputDuration.type !== "text") {
-        inputDuration.classList.add('input-range');
-        inputDuration.setAttribute('min', 1);
-        inputDuration.setAttribute('max', 10);
-        inputDuration.setAttribute('step', 1);
-      } else {
-        inputDuration.value = "4";
-        inputDuration.style.width = "16px";
-      }
-      content.appendChild(inputDuration);
+    // button container
+    buttonContainer = document.createElement('article');
+    buttonContainer.classList.add('controls');
 
-      // start
-      buttonStart = document.createElement('button');
-      buttonStart.addEventListener('click', captureVideo); // render gif
-      buttonStart.classList.add('affirmative');
-      buttonStart.innerHTML = "Start video";
-      content.appendChild(buttonStart);
+    // start
+    buttonStart = document.createElement('button');
+    buttonStart.addEventListener('click', captureVideo); // render gif
+    buttonStart.classList.add('affirmative');
+    buttonStart.innerHTML = "Start video";
+    buttonContainer.appendChild(buttonStart);
 
-      // stop
-      buttonStop = document.createElement('button');
-      buttonStop.innerHTML = "Stop Capture";
-      buttonStop.classList.add('negatory');
-      buttonStop.disabled = true;
-      buttonStop.addEventListener('click', stopCapture);
-      content.appendChild(buttonStop);
+    // stop
+    buttonStop = document.createElement('button');
+    buttonStop.innerHTML = "Stop Capture";
+    buttonStop.classList.add('negatory');
+    buttonStop.disabled = true;
+    buttonStop.addEventListener('click', stopCapture);
+    buttonContainer.appendChild(buttonStop);
+
+    content.appendChild(buttonContainer);
+
   }
 
 
