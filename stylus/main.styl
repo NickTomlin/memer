@@ -26,9 +26,11 @@ body
     padding .6em .8em
     display inline-block
     margin: 0 .75em 1.5em auto
+    outline none
 
   button
     color #fff
+    padding .6em .8em
     box-shadow none
     // text-shadow 1px 1px 1px darken(#fff,2%)
     -webkit-backface-visibility hidden
@@ -36,8 +38,7 @@ body
     border-radius 5px
     cursor pointer
 
-  input
-    outline none
+  input[type="text"]
     border: 2px solid #111
     transition border .1s ease-in-out
     // hover(border, .2s)
@@ -46,6 +47,10 @@ body
       border none
       // -moz-outline-style none
       border: 2px solid rgba($blue,0.6)
+
+  input[type="range"]
+    background red
+    padding 0
 
 #content
 
