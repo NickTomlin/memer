@@ -1,4 +1,5 @@
 define(
+  ['gif','lodash'],
   Memer = function() {
     var
     content,
