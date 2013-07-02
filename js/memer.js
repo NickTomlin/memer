@@ -1,6 +1,7 @@
 define(
   ['gif','lodash'],
-  Memer = function() {
+  Memer = function(gif, _) {
+
     var
     content,
     localMediaStream,
