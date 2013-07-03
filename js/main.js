@@ -2,7 +2,6 @@ requirejs.config({
     "baseUrl": "js",
     "paths": {
       "gif": "lib/gif/gif",
-      //"gifWorker": "lib/gif/gif.worker",
       "lodash": "vendor/lodash/dist/lodash.underscore.min"
     }
 });
