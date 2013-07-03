@@ -103,7 +103,6 @@ define(
     buttonContainer.appendChild(buttonStop);
 
     content.appendChild(buttonContainer);
-
   }
 
 
@@ -202,10 +201,7 @@ define(
   }
 
 
-  /**
-  * Write text on to canvas.
-  */
-   function textToCanvas (canvas, message, length, height) {
+   function textToCanvas (canvas, message) {
       var x = canvas.width / 2;
       var y = canvas.height - (canvas.height / 6);
       var text = message || "Gif. Peeps: ";
