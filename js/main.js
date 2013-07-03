@@ -1,15 +1,14 @@
 requirejs.config({
     "baseUrl": "js",
     "paths": {
-      "components": "../components",
       "gif": "lib/gif/gif",
-      "gifWorker": "lib/gif/gif.worker",
-      "lodash": "../components/lodash/dist/lodash.underscore.min"
+      //"gifWorker": "lib/gif/gif.worker",
+      "lodash": "vendor/lodash/dist/lodash.underscore.min"
     }
 });
 
 // Load the main app module to start the app
-requirejs(["lodash" , "terminal", "memer"], function(_, terminal, memer){
+requirejs(["lodash" ,  "memer"], function(_, memer){
   contentEle = document.getElementById('content');
 
   if ( memer.hasGetUserMedia() ) {
