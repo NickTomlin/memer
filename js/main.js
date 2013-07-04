@@ -12,12 +12,12 @@ requirejs(["lodash" ,  "memer"], function(_, memer){
 
   if ( memer.hasGetUserMedia() ) {
     var yayText = document.querySelector('.yay');
-    yayText.classList.remove('is-hidden');
-    yayText.classList.add('is-visible'); // this is why you use libraries :\
+    yayText.classList.toggle('is-hidden');
 
     var buttonStart = document.getElementById('start');
     buttonStart.addEventListener('click', function(){
       memer.init(contentEle);
+      yayText.classList.toggle('is-hidden');
     });
   } else {
     document.write('fail');
