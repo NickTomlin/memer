@@ -20,7 +20,8 @@ requirejs(["lodash" ,  "memer"], function(_, memer){
       yayText.classList.toggle('is-hidden');
     });
   } else {
-    document.write('fail');
+    nayText = document.querySelector('.nay');
+    nayText.classList.toggle('is-hidden');
   }
 
 });// requireJs

@@ -48,9 +48,25 @@ body
       // -moz-outline-style none
       border: 2px solid rgba($blue,0.6)
 
-  input[type="range"]
-    background red
+  .input-range
     padding 0
+    position relative
+    margin-left 16px
+
+    // range indicators
+    &:before,&:after
+      font-size:12px
+      position absolute
+      display inline-block
+      top -6px
+
+    &:before
+      left -18px
+      content attr(min) "s"
+
+    &:after
+      content attr(max) "s"
+
 
 #content
 
@@ -82,13 +98,11 @@ body
   hover(background, .2s)
 
 
+.dialog
+  transition all .2s ease-in-out
+
+
 .is-hidden
   visibility hidden
   height 0
   opacity 0
-  transition opacity .2s ease-in-out
-
-// .is-visible
-//   visibility visible
-//   height auto
-//   opacity 1
