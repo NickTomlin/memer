@@ -2,6 +2,8 @@ Memer
 
 Gifs in yo' browser (if that Browser happens to be Chrome or Firefox :/).
 
+Live: [memer.nick-tomlin.com](http://memer.nick-tomlin.com)
+
 # Getting started
 
     bower install
