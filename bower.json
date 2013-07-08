@@ -5,9 +5,9 @@
   "dependencies": {
     "requirejs": "latest",
     "lodash": "latest"
-  }
+  },
   "ignore": [
     "**/.*",
-    "node_modules",
+    "node_modules"
   ]
 }
