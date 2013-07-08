@@ -9,40 +9,55 @@ module.exports = function(grunt) {
           paths: ['stylus']
          },
          files: {
-          'static/css/main.css': ['stylus/main.styl'] // compile and concat into single file
+          'app/static/css/main.css': ['app/stylus/main.styl'] // compile and concat into single file
        }
       }
     },
     connect: {
       server: {
         options: {
-          port: 3020
+          port: 3020,
+          base: "app"
         }
       }
     },
     watch: {
       scripts: {
-        files: ['js'],
+        files: ['app/js'],
         tasks: ['uglify']
       },
       styl: {
-        files: ['stylus/*.styl'],
+        files: ['app/stylus/*.styl'],
         tasks: ['stylus']
       },
       livereload: {
-          files: ['static/css/*.css'],
+          files: ['app/static/css/*.css'],
           options: {
             livereload: true
           }
+      }
+    },
+    requirejs: {
+      compile: {
+        options: {
+          name: "main",
+          MainConfigFile: "app/js/require-config.js",
+          optimize: "none",
+          findNestedDependencies: false,
+          baseUrl: "app/js",
+          out: "build/opt.js"
+        }
       }
     }
   });
 
   // contrib
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-contrib-connect');
 
+  grunt.registerTask('build', ['requirejs']);
   // default
   grunt.registerTask('default', ['stylus:compile','connect','watch']);
 
