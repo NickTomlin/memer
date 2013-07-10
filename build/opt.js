@@ -6,8 +6,12 @@ requirejs.config({
     }
 });
 
+define("require-config", function(){});
+
+requirejs(['require-config'], function () {
+
 // Load the main app module to start the app
-requirejs(["lodash" ,  "memer"], function(_, memer){
+require(["lodash" ,  "memer"], function(_, memer){
   contentEle = document.getElementById('content');
 
   if ( memer.hasGetUserMedia() ) {
@@ -24,4 +28,5 @@ requirejs(["lodash" ,  "memer"], function(_, memer){
     nayText.classList.toggle('is-hidden');
   }
 
-});// requireJs
+});
+});

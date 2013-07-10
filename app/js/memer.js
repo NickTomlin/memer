@@ -2,6 +2,8 @@ define(
   ['gif','lodash'],
   Memer = function(gif, _) {
 
+    "use strict";
+
     var
     // containers
     content,

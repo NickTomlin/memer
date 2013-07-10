@@ -3,6 +3,8 @@
  * Communicate with user through HTML element
  * @param {DOM node} return
  */
+"use strict";
+
 function Terminal(element) {
   this.target = element;
 
