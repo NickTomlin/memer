@@ -1,6 +1,9 @@
 requirejs(['require-config'], function () {
   // Load the main app module to start the app
   require(["lodash" ,  "memer"], function(_, memer){
+
+    "use strict";
+
     contentEle = document.getElementById('content');
 
     if ( memer.hasGetUserMedia() ) {
